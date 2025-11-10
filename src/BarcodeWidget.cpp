@@ -17,7 +17,7 @@
 #include <SimpleBase64.h>
 #include "BarcodeWidget.h"
 
-QImage BarcodeWidget::MatToQImage(const cv::Mat& mat)
+QImage BarcodeWidget::MatToQImage(const cv::Mat& mat) const
 {
     if (mat.type() == CV_8UC1)
         return QImage(mat.data, mat.cols, mat.rows, static_cast<int>(mat.step), QImage::Format_Grayscale8).copy();

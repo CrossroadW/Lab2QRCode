@@ -64,7 +64,7 @@ private:
      * @return 转换后的 QImage 图像。
      *
      */
-    QImage MatToQImage(const cv::Mat& mat);
+    QImage MatToQImage(const cv::Mat& mat) const;
 
     QLineEdit* filePathEdit;       /**< 文件路径输入框，用于显示选择的文件路径 */
     QPushButton* generateButton;   /**< 生成二维码按钮 */

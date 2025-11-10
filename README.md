@@ -29,20 +29,7 @@ cmake --build . -j --config Release
 
 ## 使用
 
-打开软件
-
-   ![](./images/01.png)
-
-### 打开文件生成 `QRCode` 图片
-
-
-1. 点击“**浏览**”按钮选择一个二进制或文本文件
-
-2. 点击“**生成QRCode**”按钮，会生成一个 QRCode 码图片:
-	
-	![](./images/02.png)
-
-3. 点击“**保存图片**”按钮，可以将生成的 QRCode 图片保存到本地。图片格式为: `.png`; 大小：300x300 像素。
+![Lab2QRCode](./images/Lab2QRCode.gif)
 
 ### 读取 `QRCode` 图片还原文件
 
