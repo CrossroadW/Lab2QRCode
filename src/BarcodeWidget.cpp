@@ -312,8 +312,6 @@ void BarcodeWidget::onDecodeToChemFileClicked()
             decodedData = std::vector<std::uint8_t>(encodedText.begin(), encodedText.end());
         }
         
-
-        // ✅ 显示部分内容到界面
         QString preview;
         if (decodedData.size() > 1024)
             preview = QString::fromUtf8(reinterpret_cast<const char*>(decodedData.data()), 1024) + "\n... (内容已截断)";
