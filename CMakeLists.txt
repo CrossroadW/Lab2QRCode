@@ -36,6 +36,7 @@ find_package(Boost CONFIG REQUIRED COMPONENTS
     random
 )
 find_package(spdlog CONFIG REQUIRED)
+find_package(ElaWidgetTools CONFIG  REQUIRED)
 
 file(GLOB_RECURSE SOURCES "src/*.cpp")
 
@@ -47,7 +48,6 @@ add_executable(${PROJECT_NAME}
 )
 add_dependencies(${PROJECT_NAME} RunPowerShellScript)
 
-
 target_link_libraries(${PROJECT_NAME} PRIVATE 
     Qt5::Core
     Qt5::Widgets
@@ -57,11 +57,12 @@ target_link_libraries(${PROJECT_NAME} PRIVATE
     Boost::headers
     Boost::random
     spdlog::spdlog_header_only
+    ElaWidgetTools
 )
 
 add_custom_command(
     TARGET ${PROJECT_NAME} POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E copy_directory
             "${CMAKE_SOURCE_DIR}/setting"
-            "$<TARGET_FILE_DIR:${PROJECT_NAME}>/setting"
+            "$<TARGET_FILE_DIR:${PROJECT_NAME}>/setting"     
 )

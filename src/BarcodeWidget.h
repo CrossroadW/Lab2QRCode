@@ -21,13 +21,15 @@ class QFileDialog;
 class QProgressBar;
 class QMenuBar;
 
+class ElaContentDialog;
 /**
  * @class BarcodeWidget
  * @brief 该类用于实现 条码图片生成和解析功能的窗口。
  *
  * BarcodeWidget 提供了一个 GUI 界面，支持用户选择文件、生成条码、解码条码内容以及保存生成的条码图像。
  */
-class BarcodeWidget : public QWidget {
+class BarcodeWidget : public QWidget
+{
     Q_OBJECT
 
 public:
@@ -122,33 +124,35 @@ private slots:
     static ZXing::BarcodeFormat stringToBarcodeFormat(const QString& formatStr);
 
 private:
+    QStringList lastSelectedFiles; /**< 上次选择的文件路径列表 */
 
-    QStringList lastSelectedFiles;                                            /**< 上次选择的文件路径列表 */
-                                                                              
-    QMenuBar* menuBar;                                                        /**< 主菜单栏 */
-    QMenu* helpMenu;                                                          /**< 帮助菜单 */
-    QMenu* toolsMenu;                                                         /**< 工具菜单 */
-    QMenu* settingMenu;                                                       /**< 设置菜单 */
-                                                                              
-    QAction* aboutAction;                                                     /**< "关于"操作 */
-    QAction* debugMqttAction;                                                 /**< 打开MQTT消息展示窗口 */
-    QAction* openCameraScanAction;                                            /**< 启动摄像头扫描条码 */
-    QAction* base64CheckAcion;                                                /**< 启用Base64编码/解码 */
-    QAction* directTextAction;                                                /**< 启用文本输入*/
-                                                                              
-    QLineEdit* filePathEdit;                                                  /**< 文件路径输入框 */
-    QPushButton* generateButton;                                              /**< 生成条码按钮 */
-    QPushButton* decodeToChemFile;                                            /**< 解码并保存为化验文件 */
-    QPushButton* saveButton;                                                  /**< 保存条码图片按钮 */
-    QProgressBar* progressBar;                                                /**< 异步进度条 */
-    std::vector<convert::result_data_entry> lastResults;                      /**< 上次解码结果 */
-    QScrollArea* scrollArea;                                                  /**< 滚动区域 */
-    QComboBox* formatComboBox;                                                /**< 条码格式选择框 */
-    ZXing::BarcodeFormat currentBarcodeFormat = ZXing::BarcodeFormat::QRCode; /**< 当前选择的条码格式 */
-    QLineEdit* widthInput;                                                    /**< 图片宽度输入框 */
-    QLineEdit* heightInput;                                                   /**< 图片高度输入框 */
-    QFileDialog* fileDialog;                                                  /**< 文件选择对话框 */
-    std::unique_ptr<MqttSubscriber> subscriber_;                              /**< MQTT订阅者实例 */
-    std::unique_ptr<MQTTMessageWidget> messageWidget;                         /**< MQTT消息展示窗口 */
+    QMenuBar* menuBar;  /**< 主菜单栏 */
+    QMenu* helpMenu;    /**< 帮助菜单 */
+    QMenu* toolsMenu;   /**< 工具菜单 */
+    QMenu* settingMenu; /**< 设置菜单 */
 
+    QAction* aboutAction;          /**< "关于"操作 */
+    QAction* debugMqttAction;      /**< 打开MQTT消息展示窗口 */
+    QAction* openCameraScanAction; /**< 启动摄像头扫描条码 */
+    QAction* base64CheckAcion;     /**< 启用Base64编码/解码 */
+    QAction* directTextAction;     /**< 启用文本输入*/
+
+    QLineEdit* filePathEdit;                             /**< 文件路径输入框 */
+    QPushButton* generateButton;                         /**< 生成条码按钮 */
+    QPushButton* decodeToChemFile;                       /**< 解码并保存为化验文件 */
+    QPushButton* saveButton;                             /**< 保存条码图片按钮 */
+    QProgressBar* progressBar;                           /**< 异步进度条 */
+    std::vector<convert::result_data_entry> lastResults; /**< 上次解码结果 */
+    QScrollArea* scrollArea;                             /**< 滚动区域 */
+    QComboBox* formatComboBox;                           /**< 条码格式选择框 */
+    ZXing::BarcodeFormat currentBarcodeFormat =
+        ZXing::BarcodeFormat::QRCode;                 /**< 当前选择的条码格式 */
+    QLineEdit* widthInput;                            /**< 图片宽度输入框 */
+    QLineEdit* heightInput;                           /**< 图片高度输入框 */
+    QFileDialog* fileDialog;                          /**< 文件选择对话框 */
+    std::unique_ptr<MqttSubscriber> subscriber_;      /**< MQTT订阅者实例 */
+    std::unique_ptr<MQTTMessageWidget> messageWidget; /**< MQTT消息展示窗口 */
+    QCheckBox* base64CheckBox;                        /**< 是否使用base64 */
+    QCheckBox* directTextCheckBox;                    /**< 新增：是否直接使用文本框内容作为数据 */
+    ElaContentDialog* elaDialog;
 };

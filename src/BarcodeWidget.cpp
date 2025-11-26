@@ -27,6 +27,7 @@
 #include "version_info/version.h"
 #include <magic_enum/magic_enum.hpp>
 
+#include "ElaContentDialog.h"
 template <typename Ret, typename... Fs>
     requires(std::is_void_v<Ret> || std::is_default_constructible_v<Ret>)
 struct overload_def_noop : private Fs... {
@@ -289,9 +290,25 @@ BarcodeWidget::BarcodeWidget(QWidget* parent) : QWidget(parent) {
         // 设置当前选择的条码格式
         currentBarcodeFormat = stringToBarcodeFormat(barcodeFormats[index]);
     });
-    connect(this, &BarcodeWidget::mqttMessageReceived, this, [this](const QString& topic, const QByteArray& payload) {
-        //QMessageBox::information(this, "订阅消息", QString("主题: %1\n内容: %2").arg(topic, payload));
-        messageWidget->addMessage(topic,payload);
+    elaDialog = new ElaContentDialog(this);
+
+    connect(this,&BarcodeWidget::mqttMessageReceived,this,
+            [this](const QString &topic, const QByteArray &payload) {
+                elaDialog->setLeftButtonText("收到");
+                elaDialog->setMiddleButtonText("更新");
+                elaDialog->setRightButtonText("关闭");
+                auto centerWidget = new QWidget;
+                auto vlayout = new QVBoxLayout(centerWidget);
+                auto headerLabel = new QLabel("收到Topic: " + topic);
+                auto contentLabel = new QLabel(payload);
+                vlayout->addWidget(headerLabel);
+                vlayout->addWidget(contentLabel);
+                contentLabel->setMinimumHeight(90);
+                contentLabel->setContentsMargins(10, 8, 10, 8);
+
+                elaDialog->setCentralWidget(centerWidget);
+                elaDialog->show();
+                messageWidget->addMessage(topic, payload);
     });
 
     connect(directTextAction, &QAction::toggled, this, [this, browseButton](bool checked) {
