@@ -8,22 +8,27 @@
 #include <string>
 #include <thread>
 
-struct MqttConfig {
+struct MqttConfig
+{
     std::string host;
     uint16_t port;
     std::string client_id;
 };
 
-class MqttSubscriber {
+class MqttSubscriber
+{
 public:
     using client_type = boost::mqtt5::mqtt_client<boost::asio::ip::tcp::socket>;
-    using MessageCallback = std::function<void(const std::string& topic, const std::string& payload)>;
+    using MessageCallback =
+        std::function<void(const std::string& topic, const std::string& payload)>;
 
     static MqttConfig loadMqttConfig(const std::string& filename);
 
     static std::string generate_client_id(const std::string& app_name = "Lab2QRCode");
 
-    MqttSubscriber(const std::string& host, uint16_t port, const std::string& client_id,
+    MqttSubscriber(const std::string& host,
+                   uint16_t port,
+                   const std::string& client_id,
                    const MessageCallback& callback);
     void subscribe(const std::string& topic);
     void stop();
