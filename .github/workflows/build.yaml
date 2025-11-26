@@ -210,7 +210,11 @@ jobs:
             -DBUILD_SHARED_LIBS=OFF
           cmake --build zxing-cpp/build --parallel
           sudo cmake --install zxing-cpp/build --prefix /usr/local
-          git clone --depth 1 https://github.com/Liniyous/ElaWidgetTools -b d755a7558ee957ccee3554482d5ded9040354d81
+          git clone --depth 1 https://github.com/Liniyous/ElaWidgetTools
+          cd ElaWidgetTools
+          git fetch --depth 1 origin d755a7558ee957ccee3554482d5ded9040354d81
+          git checkout d755a7558ee957ccee3554482d5ded9040354d81
+          cd ..
           cmake -S ElaWidgetTools -B ElaWidgetTools/build -G Ninja -DCMAKE_BUILD_TYPE=Release
           cmake --build ElaWidgetTools/build --parallel
           cmake --install ElaWidgetTools/build --prefix ElaWidgetTools/install 
