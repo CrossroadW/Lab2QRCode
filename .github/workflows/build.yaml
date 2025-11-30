@@ -4,6 +4,8 @@ on:
   push:
     branches:
       - master
+    tags:
+      - 'v*'   # 例如 v1.0, v2.0, v2.0.1 等
   pull_request:    
   workflow_dispatch:
 
@@ -224,7 +226,7 @@ jobs:
         run: |
           mkdir -p appdir/usr/bin
           ${{ steps.install-linuxdeploy.outputs.linuxdeploy }} \
-            --output appimage \
+            --output appimage=${{ env.release_name }}.AppImage \
             --plugin qt \
             --executable ${{ env.release_file }} \
             --appdir appdir \
@@ -237,13 +239,13 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: linux-x64-appimage
-          path: ${{ env.release_name }}-x86_64.AppImage
+          path: ${{ env.release_name }}.AppImage
 
       # ---- Publish Release (only when tag) ----
       - name: Upload Release Asset
         if: github.ref_type == 'tag'
         uses: softprops/action-gh-release@v2
         with:
-          files: ${{ env.release_name }}-x86_64.AppImage
+          files: ${{ env.release_name }}.AppImage
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
